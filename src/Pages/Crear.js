@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { UserAuth } from "../Components/AuthContext";
+import textElement from "../Components/textFieldElement";
 
 const styles = {
   form: {
@@ -25,26 +26,22 @@ const styles = {
 const currencies = [
   {
     value: 'Nomen',
-    label: 'Nomen',
   },
   {
     value: 'Verb',
-    label: 'Verb',
   },
   {
     value: 'Adverb/Adjektiv',
-    label: 'Adverb/Adjektiv',
   },
 ];
-
 function Crear() {
   const [formData, setFormData] = useState({
     wordType: "",
     rootWord: "",
-    meaning: "",
-    article: "",
+    bedeutung: "",
+    artikel: "",
     plural: "",
-    conjugation: "",
+    konjugation: "",
     perfekt: "",
     konjunktiv2: "",
     prateritum: "",
@@ -78,10 +75,10 @@ function Crear() {
     setFormData({
       wordType: "",
       rootWord: "",
-      meaning: "",
-      article: "",
+      bedeutung: "",
+      artikel: "",
       plural: "",
-      conjugation: "",
+      konjugation: "",
       perfekt: "",
       konjunktiv2: "",
       prateritum: "",
@@ -89,7 +86,6 @@ function Crear() {
 
     navigate("/inicio");
   };
-
 
   return (
     <div>
@@ -122,112 +118,31 @@ function Crear() {
             >
               {currencies.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+                  {option.value}
                 </MenuItem>
               ))}
             </TextField>
           </div>
           {formData.wordType === "Nomen" && (
             <>
-              <TextField
-                fullWidth
-                id="meaning"
-                name="meaning"
-                label="Bedeutung"
-                value={formData.meaning}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="article"
-                name="article"
-                label="Artikel"
-                value={formData.article}
-                onChange={handleChange}
-                sx={{ marginY: "15px" }}
-                variant="outlined"
-              />
-              <TextField
-              fullWidth
-              id="plural"
-              name="plural"
-              label="Plural"
-              value={formData.plural}
-              onChange={handleChange}
-              autoComplete="off"
-              variant="outlined"
-            />
+              {textElement("bedeutung", formData, handleChange)}
+              {textElement("artikel", formData, handleChange)}
+              {textElement("plural", formData, handleChange)}
             </>
           )}
           {formData.wordType === "Verb" && (
             <>
-              <TextField
-                fullWidth
-                id="meaning"
-                name="meaning"
-                label="Bedetung"
-                value={formData.meaning}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="conjugation"
-                name="conjugation"
-                label="Konjugation"
-                value={formData.conjugation}
-                onChange={handleChange}
-                variant="outlined"
-                autoComplete="off"
-                sx={{ marginY: "15px" }}
-              />
-              <TextField
-                fullWidth
-                id="perfekt"
-                name="perfekt"
-                label="Perfekt"
-                value={formData.perfekt}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="konjunktiv2"
-                name="konjunktiv2"
-                label="Konjunktiv II"
-                value={formData.konjunktiv2}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-                sx={{ marginY: "15px" }}
-              />
-              <TextField
-                fullWidth
-                id="prateritum"
-                name="prateritum"
-                label="Präteritum"
-                value={formData.prateritum}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
+              {textElement("bedeutung", formData, handleChange)}
+              {textElement("konjugation", formData, handleChange)}
+              {textElement("perfekt", formData, handleChange)}
+              {textElement("konjunktiv2", formData, handleChange)}
+              {textElement("prateritum", formData, handleChange)}
             </>
           )}
           {formData.wordType === "Adverb/Adjektiv" && (
-            <TextField
-              fullWidth
-              id="meaning"
-              name="meaning"
-              label="Bedeutung"
-              value={formData.meaning}
-              onChange={handleChange}
-              variant="outlined"
-              autoComplete="off"
-            />
+            <>
+              {textElement("bedeutung", formData, handleChange)}
+            </>
           )}
           <Box mt={5} textAlign="center">
             <Button variant="contained" color="primary" type="submit">

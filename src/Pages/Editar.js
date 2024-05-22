@@ -43,10 +43,10 @@ const Editar = () => {
   const [formData, setFormData] = useState({
     wordType: "",
     rootWord: "",
-    meaning: "",
-    article: "",
+    bedeutung: "",
+    artikel: "",
     plural: "",
-    conjugation: "",
+    konjugation: "",
     perfekt: "",
     konjunktiv2: "",
     prateritum: "",
@@ -129,20 +129,20 @@ const Editar = () => {
             <>
               <TextField
                 fullWidth
-                id="meaning"
-                name="meaning"
+                id="bedeutung"
+                name="bedeutung"
                 label="Bedeutung"
-                value={formData.meaning}
+                value={formData.bedeutung}
                 onChange={handleChange}
                 autoComplete="off"
                 variant="outlined"
               />
               <TextField
                 fullWidth
-                id="article"
-                name="article"
+                id="artikel"
+                name="artikel"
                 label="Artikel"
-                value={formData.article}
+                value={formData.artikel}
                 onChange={handleChange}
                 sx={{ marginY: "15px" }}
                 variant="outlined"
@@ -163,20 +163,20 @@ const Editar = () => {
             <>
               <TextField
                 fullWidth
-                id="meaning"
-                name="meaning"
+                id="bedeutung"
+                name="bedeutung"
                 label="Bedetung"
-                value={formData.meaning}
+                value={formData.bedeutung}
                 onChange={handleChange}
                 autoComplete="off"
                 variant="outlined"
               />
               <TextField
                 fullWidth
-                id="conjugation"
-                name="conjugation"
+                id="konjugation"
+                name="konjugation"
                 label="Konjugation"
-                value={formData.conjugation}
+                value={formData.konjugation}
                 onChange={handleChange}
                 variant="outlined"
                 autoComplete="off"
@@ -218,10 +218,10 @@ const Editar = () => {
           {formData.wordType === "Adverb/Adjektiv" && (
             <TextField
               fullWidth
-              id="meaning"
-              name="meaning"
+              id="bedeutung"
+              name="bedeutung"
               label="Bedeutung"
-              value={formData.meaning}
+              value={formData.bedeutung}
               onChange={handleChange}
               variant="outlined"
             />
@@ -230,7 +230,7 @@ const Editar = () => {
             <Button variant="contained" color="primary" type="submit">
               Speichern
             </Button>
-            <Button variant="contained" color="error" href="#/">
+            <Button variant="contained" color="error" href="#/inicio">
               Abbrechen
             </Button>
           </Stack>
