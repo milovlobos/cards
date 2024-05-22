@@ -1,0 +1,28 @@
+/* to the class arrowL, in cellphone add margin left 20px */
+.arrowL, .arrowR {
+  margin-top: 100px;
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .arrowL {
+    margin-left: -0.1rem;
+  }
+    .arrowR {
+        margin-left: -0.7rem;
+    }
+}
+
+/* aliggn span to left */
+span {
+  text-align: left;
+}
+
+.letra {
+  font-family: 'Georgia', serif;
+  font-size: 17px;
+}
+
+.incorrect-answer {
+  color: red !important;
+}

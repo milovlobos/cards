@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+# avoid the environment file in the same directory as the gitignore file
+.env
 
 # testing
 /coverage
