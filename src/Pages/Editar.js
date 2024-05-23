@@ -2,56 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../firebase";
 import { ref, get, update } from "firebase/database";
-import { MenuItem, TextField, Button, Box, Stack } from "@mui/material";
+import { Paper } from "@mui/material";
+import { formElement, initialData } from "../Components/textFieldElement";
 
 const styles = {
   form: {
+    borderRadius: "8px",
     width: "30rem",
     margin: "auto",
     padding: "1rem",
-    border: "2px solid #ccc",
+    border: "1px solid #ccc",
     borderRadius: "8px",
-  },
-  title: {
-    textAlign: "center",
-  },
+  }
 };
-
-const centerStyles = {
-  display: 'flex',
-  justifyContent: 'center',
-};
-
-const currencies = [
-  {
-    value: 'Nomen',
-    label: 'Nomen',
-  },
-  {
-    value: 'Verb',
-    label: 'Verb',
-  },
-  {
-    value: 'Adverb/Adjektiv',
-    label: 'Adverb/Adjektiv',
-  },
-];
 
 const Editar = () => {
   const { userId, uuid } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    wordType: "",
-    rootWord: "",
-    bedeutung: "",
-    artikel: "",
-    plural: "",
-    konjugation: "",
-    perfekt: "",
-    konjunktiv2: "",
-    prateritum: "",
-
-  });
+  const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,152 +58,14 @@ const Editar = () => {
     }
   };
 
-
   return (
     <div>
-      <Box sx={{ ...styles.form, marginTop: "2rem" }}>
+      <Paper elevation={3} sx={{ ...styles.form, marginTop: "2rem" }}>
         <div>
-          <h2 style={styles.title}>Editar palabra</h2>
+          <h2 style={{textAlign: "center", marginBottom:"15px"}}>Editar palabra</h2>
         </div>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            id="rootWord"
-            name="rootWord"
-            label="Wort"
-            value={formData.rootWord}
-            onChange={handleChange}
-            variant="outlined"
-            autoComplete="off"
-          />
-          <TextField
-            id="wordType"
-            name="wordType"
-            fullWidth
-            select
-            label="Wortart"
-            value={formData.wordType}
-            onChange={handleChange}
-            variant="outlined"
-            sx={{ marginY: "15px" }}
-          >
-            {currencies.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          {formData.wordType === "Nomen" && (
-            <>
-              <TextField
-                fullWidth
-                id="bedeutung"
-                name="bedeutung"
-                label="Bedeutung"
-                value={formData.bedeutung}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="artikel"
-                name="artikel"
-                label="Artikel"
-                value={formData.artikel}
-                onChange={handleChange}
-                sx={{ marginY: "15px" }}
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="plural"
-                name="plural"
-                label="Plural"
-                value={formData.plural}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-            </>
-          )}
-          {formData.wordType === "Verb" && (
-            <>
-              <TextField
-                fullWidth
-                id="bedeutung"
-                name="bedeutung"
-                label="Bedetung"
-                value={formData.bedeutung}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="konjugation"
-                name="konjugation"
-                label="Konjugation"
-                value={formData.konjugation}
-                onChange={handleChange}
-                variant="outlined"
-                autoComplete="off"
-                sx={{ marginY: "15px" }}
-              />
-              <TextField
-                fullWidth
-                id="perfekt"
-                name="perfekt"
-                label="Perfekt"
-                value={formData.perfekt}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-              <TextField
-                fullWidth
-                id="konjunktiv2"
-                name="konjunktiv2"
-                label="Konjunktiv II"
-                value={formData.konjunktiv2}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-                sx={{ marginY: "15px" }}
-              />
-              <TextField
-                fullWidth
-                id="prateritum"
-                name="prateritum"
-                label="Präteritum"
-                value={formData.prateritum}
-                onChange={handleChange}
-                autoComplete="off"
-                variant="outlined"
-              />
-            </>
-          )}
-          {formData.wordType === "Adverb/Adjektiv" && (
-            <TextField
-              fullWidth
-              id="bedeutung"
-              name="bedeutung"
-              label="Bedeutung"
-              value={formData.bedeutung}
-              onChange={handleChange}
-              variant="outlined"
-            />
-          )}
-          <Stack mt={5} direction={"row"} spacing={2} textAlign="center" style={centerStyles}>
-            <Button variant="contained" color="primary" type="submit">
-              Speichern
-            </Button>
-            <Button variant="contained" color="error" href="#/inicio">
-              Abbrechen
-            </Button>
-          </Stack>
-        </form>
-      </Box>
+        {formElement(handleSubmit, formData, handleChange)}
+      </Paper>
     </div>
   );
 };

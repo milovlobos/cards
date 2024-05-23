@@ -78,7 +78,7 @@ function Inicio() {
     <Grid container spacing={3} justifyContent="center" mt={2} >
       {cards.map((todo) => (
         <Grid key={todo.uuid} item xs={5.5} sm={4} md={3.5} lg={2.5}>
-          <Card variant="elevation" elevation={3}>
+          <Card variant="elevation" elevation={5}>
             <CardContent>
               <Typography variant="h5" component="div">
                 {todo.rootWord}

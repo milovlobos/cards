@@ -26,3 +26,7 @@ span {
 .incorrect-answer {
   color: red !important;
 }
+
+.correct-answer {
+  color: green !important;
+}
