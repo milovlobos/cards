@@ -23,6 +23,8 @@ const Practicar = () => {
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [formData, setFormData] = useState(initialData);
   const { user } = UserAuth();
+  const [shuffledCards, setShuffledCards] = useState([]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -61,6 +63,21 @@ const Practicar = () => {
     fetchData();
   }, [user.uid]);
 
+  const shuffleCards = (cards) => {
+    const shuffled = cards
+      .map((card) => ({ card, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ card }) => card);
+    return shuffled;
+  };
+
+  const handleStartPractice = () => {
+    const shuffled = shuffleCards(cards);
+    setShuffledCards(shuffled);
+    setCurrentIndex(0);
+    setFormData(initialData);
+  };
+
   const handleToggleAnswer = () => {
     setAnswerShown(!answerShown);
   };
@@ -69,7 +86,7 @@ const Practicar = () => {
     setAnswerShown(false);
     setFormData(initialData);
 
-    if (currentIndex === cards.length - 1) {
+    if (currentIndex === shuffledCards.length - 1) {
       setCurrentIndex(0);
     } else {
       setCurrentIndex(currentIndex + 1);
@@ -81,7 +98,7 @@ const Practicar = () => {
     setFormData(initialData);
 
     if (currentIndex === 0) {
-      setCurrentIndex(cards.length - 1);
+      setCurrentIndex(shuffledCards.length - 1);
     } else {
       setCurrentIndex(currentIndex - 1);
     }
@@ -93,7 +110,7 @@ const Practicar = () => {
       return;
     }
 
-    const currentCard = cards[currentIndex];
+    const currentCard = shuffledCards[currentIndex];
     const correctAnswers = answerData(currentCard);
     const userAnswers = answerData(formData);
     let correct = true;
@@ -117,7 +134,7 @@ const Practicar = () => {
     }
   };
 
-  const progress = ((currentIndex + 1) / cards.length) * 100;
+  const progress = ((currentIndex + 1) / shuffledCards.length) * 100;
   let answerIcon = 'fas fa-chevron-circle-right mr-2 antwort';
 
   if (answerShown) {
@@ -145,9 +162,19 @@ const Practicar = () => {
     );
   }
 
+  if (shuffledCards.length === 0) {
+    return (
+      <Box mt={5} textAlign="center">
+        <Button variant="contained" color="secondary" onClick={handleStartPractice}>
+          Los geht's!
+        </Button>
+      </Box>
+    );
+  }
+
   return (
     <div className="container mt-5">
-      {cards.length > 0 && cards[currentIndex] && (
+      {shuffledCards.length > 0 && shuffledCards[currentIndex] && (
         <div className="row justify-content-center">
           <div className="col-md-1 col-1 text-center">
             <i className="fas fa-angle-double-left arrowL fa-lg" onClick={handlePrevCard} style={{ cursor: 'pointer' }}></i>
@@ -159,7 +186,7 @@ const Practicar = () => {
             <div className="card w-100 text-center shadow border-light mt-3">
               <div className="card-body">
                 <div className="card-body">
-                  <h5 className="card-title mt-3">{cards[currentIndex].rootWord}</h5>
+                  <h5 className="card-title mt-3">{shuffledCards[currentIndex].rootWord}</h5>
                   <div>
                     <div>
                       <label htmlFor="wordType" className="font-weight-bold mb-2">
@@ -186,7 +213,7 @@ const Practicar = () => {
                     {formData.wordType && (
                       <div>
                         {testExport.find(item => item[formData.wordType])?.[formData.wordType].map((element) => (
-                          <div className="form-group mt-4">
+                          <div className="form-group mt-4" key={element}>
                             {textElement(element, formData, handleChange, "small")}
                           </div>
                         ))}
@@ -216,35 +243,35 @@ const Practicar = () => {
                   </p>
                   {answerShown && (
                     <div className="letra">
-                      <p>- Typ: {cards[currentIndex].wordType}</p>
-                      {cards[currentIndex].wordType === 'Nomen' && (
+                      <p>- Typ: {shuffledCards[currentIndex].wordType}</p>
+                      {shuffledCards[currentIndex].wordType === 'Nomen' && (
                         <div>
                           {testExport[0].Nomen.map((element) => {
                             return (
-                              <p>- {element.charAt(0).toUpperCase() + element.slice(1)}: {cards[currentIndex][element]}</p>
+                              <p key={element}>- {element.charAt(0).toUpperCase() + element.slice(1)}: {shuffledCards[currentIndex][element]}</p>
                             );
                           })}
                         </div>
                       )}
-                      {cards[currentIndex].wordType === 'Verb' && (
+                      {shuffledCards[currentIndex].wordType === 'Verb' && (
                         <div>
                           {testExport[1].Verb.map((element) => {
                             return (
-                              <p>- {
+                              <p key={element}>- {
                                 (element.toLowerCase() === 'prateritum')
                                   ? 'Präteritum'
                                   : (element.charAt(element.length - 1) === '2'
                                     ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
-                                    : element.charAt(0).toUpperCase() + element.slice(1))}: {cards[currentIndex][element]}</p>
+                                    : element.charAt(0).toUpperCase() + element.slice(1))}: {shuffledCards[currentIndex][element]}</p>
                             );
                           })}
                         </div>
                       )}
-                      {cards[currentIndex].wordType === 'Adverb/Adjektiv' && (
+                      {shuffledCards[currentIndex].wordType === 'Adverb/Adjektiv' && (
                         <div>
                           {testExport[2]['Adverb/Adjektiv'].map((element) => {
                             return (
-                              <p>- {element.charAt(0).toUpperCase() + element.slice(1)}: {cards[currentIndex][element]}</p>
+                              <p key={element}>- {element.charAt(0).toUpperCase() + element.slice(1)}: {shuffledCards[currentIndex][element]}</p>
                             );
                           })}
                         </div>
@@ -260,6 +287,11 @@ const Practicar = () => {
           </div>
         </div>
       )}
+      <Box mt={5} textAlign="center">
+        <Button variant="contained" color="secondary" onClick={handleStartPractice}>
+          Neu starten
+        </Button>
+      </Box>
     </div>
   );
 };
