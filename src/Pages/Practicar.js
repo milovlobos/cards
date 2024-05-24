@@ -76,6 +76,9 @@ const Practicar = () => {
     setShuffledCards(shuffled);
     setCurrentIndex(0);
     setFormData(initialData);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    setAnswerShown(false);
   };
 
   const handleToggleAnswer = () => {
@@ -282,7 +285,7 @@ const Practicar = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-1 col-1 text-left">
+          <div className="col-md-1 col-1 text-center">
             <i className="fas fa-angle-double-right arrowR fa-lg" onClick={handleNextCard} style={{ cursor: 'pointer' }}></i>
           </div>
         </div>
