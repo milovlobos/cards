@@ -8,6 +8,7 @@ import { Button, Grid, Card, CardContent, Typography, CardActions, Box, Select, 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ModalElement from "../Components/ModalCard";
+import {currencies} from "../Components/textFieldElement";
 
 function Inicio() {
   const { user } = UserAuth();
@@ -16,7 +17,7 @@ function Inicio() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [wordTypeFilter, setWordTypeFilter] = useState(''); // Estado para el tipo de palabra
+  const [wordTypeFilter, setWordTypeFilter] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,9 +114,11 @@ function Inicio() {
             label="Filter"
           >
             <MenuItem value=""><em>Alles</em></MenuItem>
-            <MenuItem value="Nomen">Nomen</MenuItem>
-            <MenuItem value="Verb">Verb</MenuItem>
-            <MenuItem value="Adverb/Adjektiv">Adverb/Adjektiv</MenuItem>
+            {currencies.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Box>

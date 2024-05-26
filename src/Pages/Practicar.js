@@ -10,9 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './practicar.css';
 import { UserAuth } from "../Components/AuthContext";
-import { textElement, initialData, answerData, testExport } from "../Components/textFieldElement"
+import { textElement, initialData, answerData, testExport, currencies } from "../Components/textFieldElement"
 
-const currencies = ['Nomen', 'Verb', 'Adverb/Adjektiv']
 
 const Practicar = () => {
   const [cards, setCards] = useState([]);
@@ -175,6 +174,31 @@ const Practicar = () => {
     );
   }
 
+  const renderWordTypeDetails = (wordType, currentIndex, shuffledCards) => {
+    if (!wordType) return null;
+
+    const wordTypeIndex = currencies.indexOf(wordType);
+    const wordTypeData = testExport[wordTypeIndex]?.[wordType];
+
+    if (!wordTypeData) return null;
+
+    return (
+      <div className="letra">
+        <p>- Typ: {shuffledCards[currentIndex].wordType}</p>
+        {wordTypeData.map((element) => (
+          <p key={element}>- {
+            (element.toLowerCase() === 'prateritum')
+              ? 'Präteritum'
+              : (element.charAt(element.length - 1) === '2'
+                ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
+                : element.charAt(0).toUpperCase() + element.slice(1))
+            }: {shuffledCards[currentIndex][element]}</p>
+        ))}
+      </div>
+    );
+  };
+
+
   return (
     <div className="container mt-5">
       {shuffledCards.length > 0 && shuffledCards[currentIndex] && (
@@ -244,43 +268,7 @@ const Practicar = () => {
                     <i className={answerIcon} onClick={handleToggleAnswer} style={{ cursor: 'pointer', width: '24px' }}></i>
                     <span style={{ width: '155px' }}>{answerShown ? "Antwort verstecken" : "Antwort anzeigen"}</span>
                   </p>
-                  {answerShown && (
-                    <div className="letra">
-                      <p>- Typ: {shuffledCards[currentIndex].wordType}</p>
-                      {shuffledCards[currentIndex].wordType === 'Nomen' && (
-                        <div>
-                          {testExport[0].Nomen.map((element) => {
-                            return (
-                              <p key={element}>- {element.charAt(0).toUpperCase() + element.slice(1)}: {shuffledCards[currentIndex][element]}</p>
-                            );
-                          })}
-                        </div>
-                      )}
-                      {shuffledCards[currentIndex].wordType === 'Verb' && (
-                        <div>
-                          {testExport[1].Verb.map((element) => {
-                            return (
-                              <p key={element}>- {
-                                (element.toLowerCase() === 'prateritum')
-                                  ? 'Präteritum'
-                                  : (element.charAt(element.length - 1) === '2'
-                                    ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
-                                    : element.charAt(0).toUpperCase() + element.slice(1))}: {shuffledCards[currentIndex][element]}</p>
-                            );
-                          })}
-                        </div>
-                      )}
-                      {shuffledCards[currentIndex].wordType === 'Adverb/Adjektiv' && (
-                        <div>
-                          {testExport[2]['Adverb/Adjektiv'].map((element) => {
-                            return (
-                              <p key={element}>- {element.charAt(0).toUpperCase() + element.slice(1)}: {shuffledCards[currentIndex][element]}</p>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  {answerShown && renderWordTypeDetails(shuffledCards[currentIndex].wordType, currentIndex, shuffledCards)}
                 </div>
               </div>
             </div>

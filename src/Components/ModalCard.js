@@ -1,6 +1,7 @@
 import React from 'react';
 import { CardContent, TextField, Box, Modal, Backdrop, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import {initialData} from './textFieldElement';
 
 const style = {
   position: 'absolute',
@@ -13,7 +14,21 @@ const style = {
   boxShadow: 24,
 };
 
-
+const renderTextField = (key, label, value) => (
+  <TextField
+    key={key}
+    InputLabelProps={{ style: { color: 'blue' } }}
+    InputProps={{ readOnly: true }}
+    sx={{ marginTop: "15px" }}
+    id={key}
+    name={key}
+    label={label}
+    value={value}
+    variant="outlined"
+    autoComplete="off"
+    fullWidth
+  />
+);
 
 const cardElement = (element) => (
   <CardContent>
@@ -22,26 +37,14 @@ const cardElement = (element) => (
         {element.rootWord}
       </Typography>
     </Box>
-    <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="wordType" name="wordType" label="Typ" value={element.wordType} variant="outlined" autoComplete="off" fullWidth />
-    <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="bedeutung" name="bedeutung" label="Bedeutung" value={element.bedeutung} variant="outlined" autoComplete="off" fullWidth />
-    {element.artikel && (
-      <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="artikel" name="artikel" label="Artikel" value={element.artikel} variant="outlined" autoComplete="off" fullWidth />
-    )}
-    {element.plural && (
-      <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="plural" name="plural" label="Plural" value={element.plural} variant="outlined" autoComplete="off" fullWidth />
-    )}
-    {element.konjugation && (
-      <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="konjugation" name="konjugation" label="Konjugation" value={element.konjugation} variant="outlined" autoComplete="off" fullWidth />
-    )}
-    {element.perfekt && (
-      <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="perfekt" name="perfekt" label="Perfekt" value={element.perfekt} variant="outlined" autoComplete="off" fullWidth />
-    )}
-    {element.konjunktiv2 && (
-      <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="konjunktiv2" name="konjunktiv2" label="Konjunktiv II" value={element.konjunktiv2} variant="outlined" autoComplete="off" fullWidth />
-    )}
-    {element.prateritum && (
-      <TextField InputLabelProps={{ style: { color: 'blue' } }} InputProps={{ readOnly: true }} sx={{ marginTop: "15px" }} id="prateritum" name="prateritum" label="Präteritum" value={element.prateritum} variant="outlined" autoComplete="off" fullWidth />
-    )}
+    {Object.entries(initialData)
+      .filter(([key]) => key !== "rootWord")
+      .map(([key, value]) => {
+        if (element[key]) {
+          return renderTextField(key, key.charAt(0).toUpperCase() + key.slice(1), element[key]);
+        }
+        return null;
+      })}
   </CardContent>
 );
 
