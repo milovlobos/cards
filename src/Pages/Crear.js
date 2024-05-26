@@ -47,14 +47,14 @@ function Crear() {
 
     setFormData(initialData);
 
-    navigate("/inicio");
+    navigate("/beginn");
   };
 
   return (
     <div>
       <Paper elevation={3} sx={{ ...styles.form, marginTop: "2rem" }}>
         <div>
-          <h2 style={{textAlign: "center", marginBottom:"15px"}}>Agregar nueva palabra</h2>
+          <h2 style={{textAlign: "center", marginBottom:"15px"}}>Neues Wort hinzufügen</h2>
         </div>
         {formElement(handleSubmit, formData, handleChange)}
       </Paper>

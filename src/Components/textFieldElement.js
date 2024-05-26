@@ -100,7 +100,7 @@ const formElement = (functionSubmit, functionData, functionChange, sizeElement) 
             <Button variant="contained" color="primary" type="submit">
               Speichern
             </Button>
-            <Button variant="contained" color="error" href="#/inicio">
+            <Button variant="contained" color="error" href="#/beginn">
               Abbrechen
             </Button>
           </Stack>

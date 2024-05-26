@@ -157,7 +157,7 @@ const Practicar = () => {
       <div>
         <h2 style={{ marginTop: 20 }}>Du hast keine Karten</h2>
         <Box mt={3} textAlign="center">
-          <Button variant="contained" color="primary" href="#crear">
+          <Button variant="contained" color="primary" href="#machen">
             Speichern
           </Button>
         </Box>

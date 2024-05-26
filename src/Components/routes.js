@@ -42,12 +42,12 @@ export function MyRoutes() {
                         <Routes>
                             <Route path="*" element={<Loader2 />} />
                             <Route path="/" element={<Loader2 />} />
-                            <Route path="/inicio" element={<RequireAuth><Inicio /></RequireAuth>} />
+                            <Route path="/beginn" element={<RequireAuth><Inicio /></RequireAuth>} />
                             <Route path="/signup" element={<Signup />} />
                             <Route path="/cards" element={<Navigate to="/" />} />
-                            <Route path="/crear" element={<RequireAuth><Crear /></RequireAuth>} />
-                            <Route path="/practicar" element={<RequireAuth><Practicar /></RequireAuth>} />
-                            <Route path="/editar/:userId/:uuid" element={<RequireAuth><Editar /></RequireAuth>} />
+                            <Route path="/machen" element={<RequireAuth><Crear /></RequireAuth>} />
+                            <Route path="/üben" element={<RequireAuth><Practicar /></RequireAuth>} />
+                            <Route path="/ändern/:userId/:uuid" element={<RequireAuth><Editar /></RequireAuth>} />
                         </Routes>
                     </>
                 )}

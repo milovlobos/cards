@@ -21,7 +21,7 @@ function Loader2() {
     useEffect(() => {
         const timer = setTimeout(() => {
             if (location.pathname === '/' && user) {
-                navigate('/inicio');
+                navigate('/beginn');
             } else if (location.pathname === '/' && !user) {
                 navigate('/signup');
             }

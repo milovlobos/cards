@@ -51,7 +51,7 @@ const Editar = () => {
       await update(ref(db, `users/${userId}/${uuid}`), {
         ...formData,
       });
-      navigate("/inicio");
+      navigate("/beginn");
     } catch (error) {
       console.error("Error updating document: ", error);
     }
@@ -61,7 +61,7 @@ const Editar = () => {
     <div>
       <Paper elevation={3} sx={{ ...styles.form, marginTop: "2rem" }}>
         <div>
-          <h2 style={{textAlign: "center", marginBottom:"15px"}}>Editar palabra</h2>
+          <h2 style={{textAlign: "center", marginBottom:"15px"}}>Wort ändern</h2>
         </div>
         {formElement(handleSubmit, formData, handleChange)}
       </Paper>

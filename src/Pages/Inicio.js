@@ -16,6 +16,7 @@ function Inicio() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,7 +44,7 @@ function Inicio() {
   }, [user]);
 
   const handleUpdate = async (uuid) => {
-    navigate(`/editar/${user.uid}/${uuid}`);
+    navigate(`/ändern/${user.uid}/${uuid}`);
   };
 
   const handleDelete = (uuid) => {
@@ -69,6 +70,10 @@ function Inicio() {
     setSelectedIndex(0);
   };
 
+  const filteredCards = cards.filter(todo =>
+    todo.rootWord.toLowerCase().startsWith(searchTerm.toLowerCase())
+  );
+
   if (loading) {
     return (
       <Box sx={{ width: "100vw", height: "70vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -82,7 +87,7 @@ function Inicio() {
       <div>
         <Box mt={3} textAlign="center">
           <h2 style={{ marginTop: 20 }} >Du hast keine Karten</h2>
-          <Button variant="contained" color="primary" href="#crear">
+          <Button variant="contained" color="primary" href="#machen">
             Speichern
           </Button>
         </Box>
@@ -92,8 +97,17 @@ function Inicio() {
 
   return (
     <>
-      <Grid container spacing={3} justifyContent="center" mt={2} >
-        {cards.map((todo, index) => (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Wort suchen..."
+          style={{ marginTop: 20, marginBottom: 20, borderRadius: 5 }}
+        />
+      </div>
+      <Grid container spacing={3} justifyContent="center" >
+        {filteredCards.map((todo, index) => (
           <Grid key={todo.uuid} item xs={5.5} sm={4} md={3.5} lg={2.5}>
             <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo, index)}>
               <CardContent>

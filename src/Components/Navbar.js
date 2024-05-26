@@ -4,8 +4,8 @@ import { AppBar, Box, Toolbar, IconButton, Menu, Avatar, Button, Tooltip, MenuIt
 import MenuIcon from '@mui/icons-material/Menu';
 import { UserAuth } from './AuthContext';
 
-const pages = ['Inicio', 'Crear', 'Practicar'];
-const settings = ['Inicio', 'Logout'];
+const pages = ['Beginn', 'Machen', 'Üben'];
+const settings = ['Beginn', 'Abmelden'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -82,10 +82,10 @@ function ResponsiveAppBar() {
             <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  {setting === 'Logout' ? (
+                  {setting === 'Abmelden' ? (
                     <Link onClick={cerrarSesion} style={{ textDecoration: 'none', color: 'inherit' }}>{setting}</Link>
                   ) : (
-                    <Link to="/inicio" style={{ textDecoration: 'none', color: 'inherit' }}>{setting}</Link>
+                    <Link to="/Beginn" style={{ textDecoration: 'none', color: 'inherit' }}>{setting}</Link>
                   )}
                 </MenuItem>
               ))}

@@ -7,7 +7,7 @@ import { UserAuth } from '../Components/AuthContext';
 
 const styles = {
   form: {
-    width: "80%",
+    width: "20rem",
     margin: "auto",
     padding: "1rem",
     border: "2px solid #ccc",
