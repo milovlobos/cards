@@ -15,6 +15,7 @@ function Inicio() {
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,14 +57,16 @@ function Inicio() {
       });
   };
 
-  const handleOpenModal = (card) => {
+  const handleOpenModal = (card, index) => {
     setSelectedCard(card);
+    setSelectedIndex(index);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedCard(null);
+    setSelectedIndex(0);
   };
 
   if (loading) {
@@ -90,9 +93,9 @@ function Inicio() {
   return (
     <>
       <Grid container spacing={3} justifyContent="center" mt={2} >
-        {cards.map((todo) => (
+        {cards.map((todo, index) => (
           <Grid key={todo.uuid} item xs={5.5} sm={4} md={3.5} lg={2.5}>
-            <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo)}>
+            <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo, index)}>
               <CardContent>
                 <Typography variant="h5" component="div">
                   {todo.rootWord}
@@ -111,7 +114,7 @@ function Inicio() {
           </Grid>
         ))}
       </Grid>
-      {ModalElement(selectedCard, handleCloseModal, isModalOpen)}
+      {isModalOpen && <ModalElement elements={cards} initialIndex={selectedIndex} functionClose={handleCloseModal} verifyIsOpen={isModalOpen} />}
     </>
   );
 }

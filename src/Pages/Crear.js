@@ -14,7 +14,6 @@ const styles = {
     margin: "auto",
     padding: "1rem",
     border: "1px solid #ccc",
-    borderRadius: "8px",
   }
 };
 
