@@ -103,10 +103,12 @@ function Inicio() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Wort suchen..."
-          style={{ marginTop: 20, marginBottom: 20, borderRadius: 5 }}
+          style={{ marginTop: 20, marginBottom: 20, borderRadius: 5, paddingLeft: 10 }}
         />
       </div>
-      <Grid container spacing={3} justifyContent="center" >
+      <Grid container spacing={3} justifyContent="center"
+      style={{paddingBottom: 20}}
+      >
         {filteredCards.map((todo, index) => (
           <Grid key={todo.uuid} item xs={5.5} sm={4} md={3.5} lg={2.5}>
             <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo, index)}>
