@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { onValue, ref } from "firebase/database";
-import { MenuItem, TextField, Badge, Box, Button } from "@mui/material";
+import { MenuItem, TextField, Badge, Box, Button, Select, InputLabel, FormControl, Snackbar, Alert, Stack } from "@mui/material";
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import DriveFileRenameOutlineTwoToneIcon from '@mui/icons-material/DriveFileRenameOutlineTwoTone';
@@ -10,8 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './practicar.css';
 import { UserAuth } from "../Components/AuthContext";
-import { textElement, initialData, answerData, testExport, currencies } from "../Components/textFieldElement"
-
+import { textElement, initialData, answerData, testExport, currencies } from "../Components/textFieldElement";
 
 const Practicar = () => {
   const [cards, setCards] = useState([]);
@@ -23,6 +22,8 @@ const Practicar = () => {
   const [formData, setFormData] = useState(initialData);
   const { user } = UserAuth();
   const [shuffledCards, setShuffledCards] = useState([]);
+  const [filterWords, setFilterWords] = useState('Alles');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,6 +65,7 @@ const Practicar = () => {
 
   const shuffleCards = (cards) => {
     const shuffled = cards
+      .filter(card => filterWords === 'Alles' || card.wordType === filterWords)
       .map((card) => ({ card, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ card }) => card);
@@ -73,6 +75,18 @@ const Practicar = () => {
   const handleStartPractice = () => {
     const shuffled = shuffleCards(cards);
     setShuffledCards(shuffled);
+    if (shuffled.length === 0) {
+      setOpenSnackbar(true);
+    }
+    setCurrentIndex(0);
+    setFormData(initialData);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    setAnswerShown(false);
+  };
+
+  const handleRestartPractice = () => {
+    setShuffledCards([]);
     setCurrentIndex(0);
     setFormData(initialData);
     setCorrectAnswers(0);
@@ -148,7 +162,7 @@ const Practicar = () => {
       <Box sx={{ width: "100vw", height: "70vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Loader />
       </Box>
-    )
+    );
   }
 
   if (cards.length === 0) {
@@ -167,9 +181,38 @@ const Practicar = () => {
   if (shuffledCards.length === 0) {
     return (
       <Box mt={5} textAlign="center">
-        <Button variant="contained" color="secondary" onClick={handleStartPractice}>
-          Los geht's!
-        </Button>
+        <Stack mt={2} direction={"row"} spacing={2} style={{ display: 'flex', justifyContent: 'center', }}>
+          <FormControl size="small" variant="outlined" style={{ width: 150 }}>
+            <InputLabel id="word-type-filter-label">Art des Wortes</InputLabel>
+            <Select
+              labelId="word-type-filter-label"
+              value={filterWords}
+              onChange={(e) => setFilterWords(e.target.value)}
+              label="Art des Wortes"
+            >
+              <MenuItem value="Alles"><em>Alles</em></MenuItem>
+              {currencies.map((option) => (
+                <MenuItem key={option} value={option}>
+                  <em>{option}</em>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="secondary" onClick={handleStartPractice}>
+            Los geht's!
+          </Button>
+        </Stack>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={2500}
+          onClose={() => setOpenSnackbar(false)}
+          anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+          sx={{ top: '30%', transform: 'translateY(-50%)' }}
+        >
+          <Alert onClose={() => setOpenSnackbar(false)} severity="warning">
+            Du hast keine Karten dieses Typs
+          </Alert>
+        </Snackbar>
       </Box>
     );
   }
@@ -192,15 +235,14 @@ const Practicar = () => {
               : (element.charAt(element.length - 1) === '2'
                 ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
                 : element.charAt(0).toUpperCase() + element.slice(1))
-            }: {shuffledCards[currentIndex][element]}</p>
+          }: {shuffledCards[currentIndex][element]}</p>
         ))}
       </div>
     );
   };
 
-
   return (
-    <div className="container mt-5">
+    <div className="container mt-3">
       {shuffledCards.length > 0 && shuffledCards[currentIndex] && (
         <div className="row justify-content-center">
           <div className="col-md-1 col-1 text-center">
@@ -213,7 +255,7 @@ const Practicar = () => {
             <div className="card w-100 text-center shadow border-light mt-3">
               <div className="card-body">
                 <div className="card-body">
-                  <h5 className="card-title mt-3">{shuffledCards[currentIndex].rootWord}</h5>
+                  <h5 className="card-title">{shuffledCards[currentIndex].rootWord}</h5>
                   <div>
                     <div>
                       <label htmlFor="wordType" className="font-weight-bold mb-2">
@@ -248,7 +290,7 @@ const Practicar = () => {
                     )}
                   </div>
                   <div className="form-group mt-4">
-                    <button type="button" className="btn btn-primary mt-4 mr-2" onClick={handleCompareAnswers}>
+                    <button type="button" className="btn btn-primary mt-1 mr-2" onClick={handleCompareAnswers}>
                       <DriveFileRenameOutlineTwoToneIcon />
                     </button>
                   </div>
@@ -264,7 +306,7 @@ const Practicar = () => {
                       </Badge>
                     </div>
                   </div>
-                  <p className="card-text mt-4 letra" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <p className="card-text mt-2 letra" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <i className={answerIcon} onClick={handleToggleAnswer} style={{ cursor: 'pointer', width: '24px' }}></i>
                     <span style={{ width: '155px' }}>{answerShown ? "Antwort verstecken" : "Antwort anzeigen"}</span>
                   </p>
@@ -278,8 +320,8 @@ const Practicar = () => {
           </div>
         </div>
       )}
-      <Box mt={5} textAlign="center">
-        <Button variant="contained" color="secondary" onClick={handleStartPractice}>
+      <Box mt={2} mb={2} textAlign="center">
+        <Button variant="contained" color="secondary" onClick={handleRestartPractice}>
           Neu starten
         </Button>
       </Box>
