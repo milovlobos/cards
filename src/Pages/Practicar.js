@@ -248,7 +248,7 @@ const Practicar = () => {
           <div className="col-md-1 col-1 text-center">
             <i className="fas fa-angle-double-left arrowL fa-lg" onClick={handlePrevCard} style={{ cursor: 'pointer' }}></i>
           </div>
-          <div className="col-md-8 col-10">
+          <div className="col-md-8 col-xl-6 col-10">
             <div className="progress">
               <div className="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style={{ width: progress + '%' }}></div>
             </div>
@@ -295,12 +295,12 @@ const Practicar = () => {
                     </button>
                   </div>
                   <div className="mt-3 d-flex justify-content-center">
-                    <div className="d-flex justify-content-center col-2">
+                    <div className="d-flex justify-content-center col-md-2 col-xl-1 col-3">
                       <Badge badgeContent={correctAnswers} color="success" sx={{ mx: "auto" }}>
                         <SentimentVerySatisfiedIcon color="success" fontSize="large" />
                       </Badge>
                     </div>
-                    <div className="d-flex justify-content-center col-2">
+                    <div className="d-flex justify-content-center col-md-2 col-xl-1 col-3">
                       <Badge badgeContent={incorrectAnswers} color="error" sx={{ mx: "auto" }}>
                         <SentimentVeryDissatisfiedIcon color="error" fontSize="large" />
                       </Badge>
