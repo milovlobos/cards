@@ -137,7 +137,7 @@ function Inicio() {
           <Typography mt={5} variant="h5" >Du hast keine Karten dieses Typs</Typography>
         ) : (
           filteredCards.map((todo, index) => (
-            <Grid key={todo.uuid} item xs={5.5} sm={4} md={3.5} lg={2.5}>
+            <Grid key={todo.uuid} item sm={4} md={3.5} lg={2.5}>
               <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo, index)}>
                 <CardContent>
                   <Typography variant="h5" component="div">

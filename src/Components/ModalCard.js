@@ -8,7 +8,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 380,
+  width: 350,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -27,12 +27,13 @@ const renderTextField = (key, label, value) => (
     variant="outlined"
     autoComplete="off"
     fullWidth
+    multiline
   />
 );
 
 const cardElement = (element) => (
   <CardContent>
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center'}}>
       <Typography sx={{ marginBottom: "15px" }} id="modal-modal-title" variant="h8" component="h2">
         {element.rootWord}
       </Typography>
