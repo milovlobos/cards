@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { uid } from "uid";
 import { set, ref } from "firebase/database";
-import { Paper } from "@mui/material";
+import { Paper, Alert, Snackbar } from "@mui/material";
 import { UserAuth } from "../Components/AuthContext";
 import { formElement, initialData } from "../Components/textFieldElement";
 
@@ -19,8 +18,7 @@ const styles = {
 
 function Crear() {
   const [formData, setFormData] = useState(initialData);
-
-  const navigate = useNavigate();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const { user } = UserAuth();
 
   const handleChange = (event) => {
@@ -31,7 +29,8 @@ function Crear() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const { wordType, ...data } = formData;
     const uuid = uid();
     const userEmail = user.email;
@@ -46,18 +45,28 @@ function Crear() {
     });
 
     setFormData(initialData);
-
-    navigate("/beginn");
+    setOpenSnackbar(true);
   };
 
   return (
     <div>
       <Paper elevation={3} sx={{ ...styles.form, marginTop: "2rem" }}>
         <div>
-          <h2 style={{textAlign: "center", marginBottom:"15px"}}>Neues Wort hinzufügen</h2>
+          <h2 style={{ textAlign: "center", marginBottom: "15px" }}>Neues Wort hinzufügen</h2>
         </div>
         {formElement(handleSubmit, formData, handleChange)}
       </Paper>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2500}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+        sx={{ top: '30%', transform: 'translateY(-50%)' }}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success">
+          Wort erfolgreich hinzugefügt
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

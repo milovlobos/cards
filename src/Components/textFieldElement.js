@@ -2,11 +2,11 @@ import React from 'react';
 import { TextField, MenuItem, Button, Stack } from '@mui/material';
 
 const testExport = [
-  {"Nomen":["bedeutung", "artikel", "plural"]},
-  {"Verb":["bedeutung", "konjugation", "perfekt", "konjunktiv2", "prateritum"]},
-  {"Adverb/Adjektiv":["bedeutung"]},
-  {"Präposition":["bedeutung", "nutzung"]},
-  {"Konnektoren":["bedeutung"]}
+  { "Nomen": ["bedeutung", "artikel", "plural"] },
+  { "Verb": ["bedeutung", "konjugation", "perfekt", "konjunktiv2", "prateritum"] },
+  { "Adverb/Adjektiv": ["bedeutung"] },
+  { "Präposition": ["bedeutung", "nutzung"] },
+  { "Konnektoren": ["bedeutung"] }
 ]
 
 const currencies = testExport.map((element) => Object.keys(element)[0]);
@@ -40,9 +40,12 @@ const textElement = (element, functionData, functionChange, sizeElement) => (
     name={element}
     label={(element.toLowerCase() === 'prateritum')
       ? 'Präteritum'
-      : (element.charAt(element.length - 1) === '2'
-        ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
-        : element.charAt(0).toUpperCase() + element.slice(1))}
+      : (element.toLowerCase() === 'plural')
+        ? 'Plural / Fem (Pl)'
+        : (element.charAt(element.length - 1) === '2'
+          ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
+          : element.charAt(0).toUpperCase() + element.slice(1))
+    }
     value={functionData[element]}
     onChange={functionChange}
     variant="outlined"
@@ -93,7 +96,7 @@ const formElement = (functionSubmit, functionData, functionChange, sizeElement) 
           )}
         </>
       )}
-      <Stack mt={2} direction={"row"} spacing={2} style={{display: 'flex', justifyContent: 'center',}}>
+      <Stack mt={2} direction={"row"} spacing={2} style={{ display: 'flex', justifyContent: 'center', }}>
         <Button variant="contained" color="primary" type="submit">
           Speichern
         </Button>

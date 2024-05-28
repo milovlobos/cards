@@ -9,13 +9,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ModalElement from "../Components/ModalCard";
 import { currencies } from "../Components/textFieldElement";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 function Inicio() {
   const { user } = UserAuth();
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedCard, setSelectedCard] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [wordTypeFilter, setWordTypeFilter] = useState('');
   const navigate = useNavigate();
@@ -48,6 +50,10 @@ function Inicio() {
     navigate(`/ändern/${user.uid}/${uuid}`);
   };
 
+  const handleCreateCard = () => {
+    navigate("/machen"); // Reemplaza "/crear-tarjeta" con la ruta adecuada para crear una nueva tarjeta
+  };
+
   const handleDelete = (uuid) => {
     const cardRef = ref(db, `users/${user.uid}/${uuid}`);
     remove(cardRef)
@@ -59,14 +65,14 @@ function Inicio() {
       });
   };
 
-  const handleOpenModal = (card, index) => {
-    setSelectedIndex(index);
+  const handleOpenModal = (card) => {
+    setSelectedCard(card);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedIndex(0);
+    setSelectedCard(null);
   };
 
   const filteredCards = cards.filter(todo =>
@@ -99,12 +105,13 @@ function Inicio() {
     <>
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 2, marginTop: 2, marginBottom: 2 }}>
         <TextField
-          type="text"
+          type="search"
           size="small"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           label="Wort suchen..."
           variant="outlined"
+          autoComplete="off"
           style={{ width: 140 }}
           InputProps={{
             sx: {
@@ -138,7 +145,7 @@ function Inicio() {
         ) : (
           filteredCards.map((todo, index) => (
             <Grid key={todo.uuid} item sm={4} md={3.5} lg={2.5}>
-              <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo, index)}>
+              <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo)}>
                 <CardContent>
                   <Typography variant="h5" component="div">
                     {todo.rootWord}
@@ -159,7 +166,10 @@ function Inicio() {
         )
         }
       </Grid>
-      {isModalOpen && <ModalElement elements={cards} initialIndex={selectedIndex} functionClose={handleCloseModal} verifyIsOpen={isModalOpen} />}
+      {isModalOpen && <ModalElement elements={filteredCards} initialIndex={filteredCards.findIndex(card => card.uuid === selectedCard?.uuid)} functionClose={handleCloseModal} verifyIsOpen={isModalOpen} />}
+      <Fab  size="small" color="primary" aria-label="add" style={{ position: 'fixed', bottom: 16, right: 16 }} onClick={handleCreateCard}>
+        <AddIcon />
+      </Fab>
     </>
   );
 }
