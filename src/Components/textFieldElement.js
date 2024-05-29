@@ -6,7 +6,8 @@ const testExport = [
   { "Verb": ["bedeutung", "konjugation", "perfekt", "konjunktiv2", "prateritum"] },
   { "Adverb/Adjektiv": ["bedeutung"] },
   { "Präposition": ["bedeutung", "nutzung"] },
-  { "Konnektoren": ["bedeutung"] }
+  { "Konnektoren": ["bedeutung"] },
+  { "Nomen-Verb-Verbindungen": ["bedeutung"] },
 ]
 
 const currencies = testExport.map((element) => Object.keys(element)[0]);

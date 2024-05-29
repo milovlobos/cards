@@ -4,7 +4,7 @@ import { db } from "../firebase";
 import { UserAuth } from "../Components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/loader";
-import { Button, Grid, Card, CardContent, Typography, CardActions, Box, Select, MenuItem, InputLabel, FormControl, TextField } from "@mui/material";
+import { Button, Grid, Card, CardContent, Typography, CardActions, Box, TextField, Chip, Stack, Autocomplete } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ModalElement from "../Components/ModalCard";
@@ -19,7 +19,7 @@ function Inicio() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [wordTypeFilter, setWordTypeFilter] = useState('');
+  const [wordTypeFilter, setWordTypeFilter] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -75,9 +75,13 @@ function Inicio() {
     setSelectedCard(null);
   };
 
+  const handleFilterChange = (event, newValue) => {
+    setWordTypeFilter(newValue);
+  };
+
   const filteredCards = cards.filter(todo =>
     todo.rootWord.toLowerCase().startsWith(searchTerm.toLowerCase()) &&
-    (wordTypeFilter === '' || todo.wordType === wordTypeFilter)
+    (wordTypeFilter.length === 0 || wordTypeFilter.includes(todo.wordType))
   );
 
   if (loading) {
@@ -119,25 +123,37 @@ function Inicio() {
             }
           }}
         />
-        <FormControl size="small" variant="outlined" style={{ width: 140 }}>
-          <InputLabel id="word-type-filter-label">Filter</InputLabel>
-          <Select
-            labelId="word-type-filter-label"
+        <Stack spacing={3} sx={{ width: 400 }}>
+          <Autocomplete
+            multiple
+            size="small"
+            id="tags-outlined"
+            options={currencies}
+            getOptionLabel={(option) => option}
             value={wordTypeFilter}
-            onChange={(e) => setWordTypeFilter(e.target.value)}
-            label="Filter"
+            onChange={handleFilterChange}
+            filterSelectedOptions
+            renderTags={(tagValue, getTagProps) =>
+              tagValue.map((option, index) => (
+                <Chip
+                  key={option}
+                  label={option}
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Filter"
+                placeholder="Select word types"
+              />
+            )}
             sx={{
               boxShadow: '5px 5px 2px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)'
             }}
-          >
-            <MenuItem value=""><em>Alles</em></MenuItem>
-            {currencies.map((option) => (
-              <MenuItem key={option} value={option}>
-                <em>{option}</em>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          />
+        </Stack>
       </Box>
       <Grid container spacing={3} justifyContent="center" style={{ paddingBottom: 20 }}>
         {filteredCards.length === 0 ? (
@@ -167,7 +183,7 @@ function Inicio() {
         }
       </Grid>
       {isModalOpen && <ModalElement elements={filteredCards} initialIndex={filteredCards.findIndex(card => card.uuid === selectedCard?.uuid)} functionClose={handleCloseModal} verifyIsOpen={isModalOpen} />}
-      <Fab  size="small" color="primary" aria-label="add" style={{ position: 'fixed', bottom: 16, right: 16 }} onClick={handleCreateCard}>
+      <Fab size="small" color="primary" aria-label="add" style={{ position: 'fixed', bottom: 16, right: 16 }} onClick={handleCreateCard}>
         <AddIcon />
       </Fab>
     </>
