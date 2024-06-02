@@ -79,7 +79,10 @@ const Practicar = () => {
       setOpenSnackbar(true);
     }
     setCurrentIndex(0);
-    setFormData(initialData);
+    setFormData({
+      ...initialData,
+      wordType: filterWords === 'Alles' ? '' : filterWords,
+    });
     setCorrectAnswers(0);
     setIncorrectAnswers(0);
     setAnswerShown(false);

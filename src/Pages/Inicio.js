@@ -107,7 +107,17 @@ function Inicio() {
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 2, marginTop: 2, marginBottom: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          marginTop: 2,
+          marginBottom: 2,
+          flexDirection: { xs: "column", sm: "row" }
+        }}
+      >
         <TextField
           type="search"
           size="small"
@@ -123,7 +133,7 @@ function Inicio() {
             }
           }}
         />
-        <Stack spacing={3} sx={{ width: 400 }}>
+        <Stack spacing={3} sx={{ width: { xs: "80%", sm: 400 } }}>
           <Autocomplete
             multiple
             size="small"
@@ -155,12 +165,12 @@ function Inicio() {
           />
         </Stack>
       </Box>
-      <Grid container spacing={3} justifyContent="center" style={{ paddingBottom: 20 }}>
+      <Grid container spacing={2} justifyContent="center" style={{ paddingBottom: 20 }} >
         {filteredCards.length === 0 ? (
-          <Typography mt={5} variant="h5" >Du hast keine Karten dieses Typs</Typography>
+          <Typography mt={3} variant="h5" marginLeft={"10%"} marginRight={"5%"} textAlign="center" width={"80%"}>Du hast keine Karten dieses Typs</Typography>
         ) : (
           filteredCards.map((todo, index) => (
-            <Grid key={todo.uuid} item sm={4} md={3.5} lg={2.5}>
+            <Grid key={todo.uuid} item sm={3.5} md={3.5} lg={2.5}>
               <Card variant="elevation" elevation={5} onClick={() => handleOpenModal(todo)}>
                 <CardContent>
                   <Typography variant="h5" component="div">
