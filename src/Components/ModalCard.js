@@ -22,7 +22,7 @@ const renderTextField = (key, label, value) => (
     sx={{ marginTop: "15px" }}
     id={key}
     name={key}
-    label={label}
+    label={(label === 'Plural')? 'Plural / Fem (Pl)': label}
     value={value}
     variant="outlined"
     autoComplete="off"
