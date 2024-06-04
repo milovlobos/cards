@@ -34,7 +34,7 @@ const answerData = (source) => {
   return data;
 };
 
-const textElement = (element, functionData, functionChange, sizeElement) => (
+const textElementCrear = (element, functionData, functionChange, sizeElement) => (
   <TextField
     fullWidth
     id={element}
@@ -54,6 +54,30 @@ const textElement = (element, functionData, functionChange, sizeElement) => (
     size={sizeElement}
     sx={{ marginTop: sizeElement === "small" ? 0 : "12px" }}
   />
+);
+
+const textElement = (element, functionData, functionChange, sizeElement, ActualCard) => (
+  ActualCard[element] && (
+    <TextField
+      fullWidth
+      id={element}
+      name={element}
+      label={(element.toLowerCase() === 'prateritum')
+        ? 'Präteritum'
+        : (element.toLowerCase() === 'plural')
+          ? 'Plural / Fem (Pl)'
+          : (element.charAt(element.length - 1) === '2'
+            ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
+            : element.charAt(0).toUpperCase() + element.slice(1))
+      }
+      value={functionData[element]}
+      onChange={functionChange}
+      variant="outlined"
+      autoComplete="off"
+      size={sizeElement}
+      sx={{ marginTop: sizeElement === "small" ? 0 : "12px" }}
+    />
+  )
 );
 
 const formElement = (functionSubmit, functionData, functionChange, sizeElement) => {
@@ -93,7 +117,7 @@ const formElement = (functionSubmit, functionData, functionChange, sizeElement) 
       {functionData.wordType && wordTypeIndex !== -1 && (
         <>
           {testExport[wordTypeIndex][functionData.wordType].map((element) =>
-            textElement(element, functionData, functionChange, sizeElement)
+            textElementCrear(element, functionData, functionChange, sizeElement)
           )}
         </>
       )}

@@ -238,13 +238,15 @@ const Practicar = () => {
       <div className="letra">
         <p>- Typ: {shuffledCards[currentIndex].wordType}</p>
         {wordTypeData.map((element) => (
-          <p key={element}>- {
-            (element.toLowerCase() === 'prateritum')
-              ? 'Präteritum'
-              : (element.charAt(element.length - 1) === '2'
-                ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
-                : element.charAt(0).toUpperCase() + element.slice(1))
-          }: {shuffledCards[currentIndex][element]}</p>
+          shuffledCards[currentIndex][element] && (
+            <p key={element}>- {
+              (element.toLowerCase() === 'prateritum')
+                ? 'Präteritum'
+                : (element.charAt(element.length - 1) === '2'
+                  ? element.charAt(0).toUpperCase() + element.slice(1, -1) + ' II'
+                  : element.charAt(0).toUpperCase() + element.slice(1))
+            }: {shuffledCards[currentIndex][element]}</p>
+          )
         ))}
       </div>
     );
@@ -291,7 +293,7 @@ const Practicar = () => {
                       <div>
                         {testExport.find(item => item[formData.wordType])?.[formData.wordType].map((element) => (
                           <div className="form-group mt-4" key={element}>
-                            {textElement(element, formData, handleChange, "small")}
+                            {textElement(element, formData, handleChange, "small", shuffledCards[currentIndex])}
                           </div>
                         ))}
                       </div>
