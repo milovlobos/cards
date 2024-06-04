@@ -48,6 +48,7 @@ const textElementCrear = (element, functionData, functionChange, sizeElement) =>
           : element.charAt(0).toUpperCase() + element.slice(1))
     }
     value={functionData[element]}
+    required={element.toLowerCase() === 'bedeutung'}
     onChange={functionChange}
     variant="outlined"
     autoComplete="off"
@@ -94,12 +95,14 @@ const formElement = (functionSubmit, functionData, functionChange, sizeElement) 
         onChange={functionChange}
         variant="outlined"
         autoComplete="off"
+        required
       />
       <div>
         <TextField
           id="wordType"
           name="wordType"
           fullWidth
+          required
           select
           label="Wortart"
           value={functionData.wordType}
