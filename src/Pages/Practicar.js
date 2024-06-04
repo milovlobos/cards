@@ -103,7 +103,10 @@ const Practicar = () => {
 
   const handleNextCard = () => {
     setAnswerShown(false);
-    setFormData(initialData);
+    setFormData({
+      ...initialData,
+      wordType: filterWords === 'Alles' ? '' : filterWords,
+    });
 
     if (currentIndex === shuffledCards.length - 1) {
       setCurrentIndex(0);
@@ -114,7 +117,10 @@ const Practicar = () => {
 
   const handlePrevCard = () => {
     setAnswerShown(false);
-    setFormData(initialData);
+    setFormData({
+      ...initialData,
+      wordType: filterWords === 'Alles' ? '' : filterWords,
+    });
 
     if (currentIndex === 0) {
       setCurrentIndex(shuffledCards.length - 1);
@@ -258,11 +264,10 @@ const Practicar = () => {
             <div className="card w-100 text-center shadow border-light mt-3">
               <div className="card-body">
                 <div className="card-body">
-                  <h5 className="card-title">{shuffledCards[currentIndex].rootWord}</h5>
+                  <h5 className="card-title mb-4 ">{shuffledCards[currentIndex].rootWord}</h5>
                   <div>
                     <div>
                       <label htmlFor="wordType" className="font-weight-bold mb-2">
-                        <b>Art des Wortes</b>
                       </label>
                       <TextField
                         id="wordType"
