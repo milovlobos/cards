@@ -171,7 +171,7 @@ const Practicar = () => {
       if (element) {
         const normalizedCorrectValue = normalizeAnswer(correctValue);
         const normalizedUserValue = normalizeAnswer(userValue);
-        const isCorrect = JSON.stringify(normalizedUserValue) === JSON.stringify(normalizedCorrectValue);
+        const isCorrect = normalizedUserValue.some(value => normalizedCorrectValue.includes(value));
         updateClass(element, isCorrect);
         if (!isCorrect) correct = false;
       }
