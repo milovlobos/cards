@@ -5,11 +5,11 @@ import { set, ref, get, query, orderByChild, equalTo } from "firebase/database";
 import { Paper, Alert, Snackbar } from "@mui/material";
 import { UserAuth } from "../Components/AuthContext";
 import { formElement, initialData } from "../Components/textFieldElement";
+import './crear.css';
 
 const styles = {
   form: {
     borderRadius: "8px",
-    width: "30rem",
     margin: "auto",
     padding: "1rem",
     border: "1px solid #ccc",
@@ -77,7 +77,7 @@ function Crear() {
 
   return (
     <div>
-      <Paper elevation={3} sx={{ ...styles.form, marginTop: "2rem" }}>
+      <Paper className="mobile-width" elevation={3} sx={{ ...styles.form, marginTop: "2rem" }}>
         <div>
           <h2 style={{ textAlign: "center", marginBottom: "15px" }}>Neues Wort hinzufügen</h2>
         </div>
